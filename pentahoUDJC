@@ -1,0 +1,33 @@
+String identifier;
+boolean RepairablePart;
+public boolean processRow(StepMetaInterface smi, StepDataInterface sdi) throws KettleException{
+    Object[] r = getRow();
+    if (r == null) {
+      setOutputDone();
+      return false;
+    }
+
+	identifier= get(Fields.In, "INV_ITEM_ID").getString(r);
+	if(identifier!="" || identifier!=null){
+
+		if(String.valueOf(identifier.charAt(identifier.length()-1)).equals("N") || String.valueOf(identifier.charAt(identifier.length()-1)).equals("S")){
+
+				//set RepairablePart to true else set false
+
+				RepairablePart = true;
+
+		}else{
+				RepairablePart=false;
+			}
+
+			
+
+		}
+
+	get(Fields.Out, "RepairablePart").setValue(r, RepairablePart);
+
+    	putRow(data.outputRowMeta, r);
+
+    return true;
+
+}
